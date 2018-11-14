@@ -40,6 +40,9 @@ dependencies {
     // Firebase Realtime DB
     implementation 'com.google.firebase:firebase-database:16.0.4'
 
+    implementation project(':spotify-app-remote-release-0.5.0')
+    implementation "com.google.code.gson:gson:2.6.1"
+
 }
 
 apply plugin: 'com.google.gms.google-services'
