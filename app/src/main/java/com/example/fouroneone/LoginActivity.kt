@@ -3,6 +3,7 @@ package com.example.fouroneone
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -62,6 +63,8 @@ class LoginActivity : AppCompatActivity() {
 
                     if(user != null){
                         Toast.makeText(this, "Logged in as ${user.email}!", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, MenuActivity::class.java)
+                        startActivity(intent)
                     }
 
                     // TODO remember password switch
@@ -91,6 +94,8 @@ class LoginActivity : AppCompatActivity() {
                     val user = firebaseAuth.currentUser
                     if(user != null){
                         Toast.makeText(this, "Account created for ${user.email}!", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, MenuActivity::class.java)
+                        startActivity(intent)
                     }
                 }
                 else{
