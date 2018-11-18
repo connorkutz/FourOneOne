@@ -1,11 +1,9 @@
 package com.example.fouroneone
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -29,6 +27,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var signupButton: Button
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private lateinit var confirmPasswordText: EditText
+    private lateinit var signupButton2: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +44,12 @@ class LoginActivity : AppCompatActivity() {
         passwordText = findViewById(R.id.password_text)
         loginButton = findViewById(R.id.login_button)
         signupButton = findViewById(R.id.signup_button)
+        confirmPasswordText = findViewById(R.id.confirm_password_text)
+        signupButton2 = findViewById(R.id.signup_button2)
+
+        signupButton2.visibility = View.INVISIBLE
+        confirmPasswordText.visibility = View.INVISIBLE
+
 
         emailText.addTextChangedListener(textWatcher)
         passwordText.addTextChangedListener(textWatcher)
@@ -55,23 +61,22 @@ class LoginActivity : AppCompatActivity() {
             val email = emailText.text.toString()
             val password = passwordText.text.toString()
 
-            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener{ task ->
-                if(task.isSuccessful){
+            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
                     firebaseAnalytics.logEvent("login_success", null)
 
                     val user = firebaseAuth.currentUser
 
-                    if(user != null){
+                    if (user != null) {
                         Toast.makeText(this, "Logged in as ${user.email}!", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, MenuActivity::class.java)
                         startActivity(intent)
                     }
 
                     // TODO remember password switch
-                }
-                else{
+                } else {
                     val exception = task.exception
-                    val errorType = if(exception is FirebaseAuthInvalidCredentialsException)
+                    val errorType = if (exception is FirebaseAuthInvalidCredentialsException)
                         "invalid credentials" else "network connection"
 
                     val bundle = Bundle()
@@ -85,25 +90,34 @@ class LoginActivity : AppCompatActivity() {
         }
 
 
-        signupButton.setOnClickListener{
+        signupButton.setOnClickListener {
+            confirmPasswordText.visibility = View.VISIBLE
+            signupButton.visibility = View.INVISIBLE
+            signupButton2.visibility = View.VISIBLE
+        }
+
+        signupButton2.setOnClickListener {
             val email = emailText.text.toString()
             val password = passwordText.text.toString()
 
-            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{ task ->
-                if(task.isSuccessful){
-                    val user = firebaseAuth.currentUser
-                    if(user != null){
-                        Toast.makeText(this, "Account created for ${user.email}!", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, MenuActivity::class.java)
-                        startActivity(intent)
+            val confirmPassword = confirmPasswordText.text.toString()
+
+            if (confirmPassword == password) {
+                firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val user = firebaseAuth.currentUser
+                        if (user != null) {
+                            Toast.makeText(this, "Account created for ${user.email}!", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this, "Account creation failed.", Toast.LENGTH_SHORT).show()
                     }
                 }
-                else{
-                    Toast.makeText(this, "Account creation failed.", Toast.LENGTH_SHORT).show()
-                }
             }
+
         }
     }
+
 
     private val textWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable) {}
