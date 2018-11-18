@@ -1,5 +1,7 @@
 package com.example.fouroneone
 
+import android.os.Build
+import android.text.Html
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONArray
@@ -42,9 +44,10 @@ class FortuneCookieManager {
                 if(response.isSuccessful && responseString != null){
                     val quoteObject = JSONArray(responseString).getJSONObject(0)
                     val quoteBodyFull = quoteObject.getString("content")        // With <p> and </p> at either end
-                    val quoteBody = quoteBodyFull.substring(3, quoteBodyFull.length - 5)    // Trims ends off
+                    val quoteBody = Html.fromHtml(quoteBodyFull, Html.FROM_HTML_MODE_COMPACT)
+
                     val quoter = quoteObject.getString("title")
-                    val finalQuote = quoteBody + " - " + quoter
+                    val finalQuote = quoteBody.toString() + " -" + quoter
                     successCallback(finalQuote)
                 }
                 else{
