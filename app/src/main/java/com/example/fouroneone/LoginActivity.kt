@@ -8,23 +8,23 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 
 class LoginActivity : AppCompatActivity() {
     private val PREF_FILENAME = "project-2-fouroneone"
-
     private val PREF_SAVED_EMAIL = "SAVED_EMAIL"
+    private val PREF_REMEMBER_SWITCH = "remember_switch"
+    private val PREF_SAVED_PASSWORD = "SAVED_PASSWORD"
 
     private lateinit var welcomeMessage: TextView
     private lateinit var emailText: EditText
     private lateinit var passwordText: EditText
+    private lateinit var rememberSwitch: Switch
     private lateinit var loginButton: Button
     private lateinit var signupButton: Button
     private lateinit var firebaseAuth: FirebaseAuth
@@ -37,19 +37,16 @@ class LoginActivity : AppCompatActivity() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         firebaseAuth = FirebaseAuth.getInstance()
 
-        val preferences = getSharedPreferences(PREF_FILENAME, Context.MODE_PRIVATE)
-
         welcomeMessage = findViewById(R.id.welcome_message)
         emailText = findViewById(R.id.email_text)
         passwordText = findViewById(R.id.password_text)
+        rememberSwitch = findViewById(R.id.remember_switch)
         loginButton = findViewById(R.id.login_button)
         signupButton = findViewById(R.id.signup_button)
-
         emailText.addTextChangedListener(textWatcher)
         passwordText.addTextChangedListener(textWatcher)
 
-        val savedEmail: String = preferences.getString(PREF_SAVED_EMAIL, "")
-        emailText.setText(savedEmail)
+        getPrefs()
 
         loginButton.setOnClickListener {
             val email = emailText.text.toString()
@@ -105,6 +102,16 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        setPrefs()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        setPrefs()
+    }
+
     private val textWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable) {}
 
@@ -116,6 +123,32 @@ class LoginActivity : AppCompatActivity() {
             val passwordString: String = passwordText.text.toString()
             loginButton.isEnabled = emailString.isNotEmpty() && passwordString.isNotEmpty()
             signupButton.isEnabled = emailString.isNotEmpty() && passwordString.isNotEmpty()
+        }
+    }
+
+    private fun getPrefs(){
+        val preferences = getSharedPreferences(PREF_FILENAME, Context.MODE_PRIVATE)
+        Log.d("connor", "prefs remembered")
+        if(preferences.getBoolean(PREF_REMEMBER_SWITCH, false)) {
+            rememberSwitch.isChecked = true
+            emailText.setText(preferences.getString(PREF_SAVED_EMAIL, ""))
+            passwordText.setText(preferences.getString(PREF_SAVED_PASSWORD, ""))
+        }
+    }
+
+    private fun setPrefs() {
+        val preferences = getSharedPreferences(PREF_FILENAME, Context.MODE_PRIVATE)
+        val editor = preferences.edit()
+        Log.d("connor", "storing prefs")
+        if(rememberSwitch.isChecked){
+            editor.putBoolean(PREF_REMEMBER_SWITCH, true)
+            editor.putString(PREF_SAVED_EMAIL, emailText.text.toString())
+            editor.putString(PREF_SAVED_PASSWORD, passwordText.text.toString())
+            editor.apply()
+        }
+        else{
+            editor.putBoolean(PREF_REMEMBER_SWITCH, false)
+            editor.apply()
         }
     }
 }
