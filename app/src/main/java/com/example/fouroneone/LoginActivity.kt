@@ -10,6 +10,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.Window
 import android.widget.*
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
@@ -32,6 +33,9 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        supportActionBar?.hide()
+
         setContentView(R.layout.activity_login)
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
@@ -47,6 +51,7 @@ class LoginActivity : AppCompatActivity() {
         passwordText.addTextChangedListener(textWatcher)
 
         getPrefs()
+
 
         loginButton.setOnClickListener {
             val email = emailText.text.toString()
