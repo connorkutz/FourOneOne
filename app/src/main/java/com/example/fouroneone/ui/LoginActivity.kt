@@ -1,7 +1,5 @@
-package com.example.fouroneone
+package com.example.fouroneone.ui
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -9,9 +7,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.View
 import android.view.Window
 import android.widget.*
+import com.example.fouroneone.R
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException

@@ -1,9 +1,11 @@
-package com.example.fouroneone
+package com.example.fouroneone.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.TextView
+import com.example.fouroneone.managers.FortuneCookieManager
+import com.example.fouroneone.R
 
 class FortuneCookieActivity : AppCompatActivity() {
 

@@ -1,6 +1,5 @@
-package com.example.fouroneone
+package com.example.fouroneone.managers
 
-import android.os.Build
 import android.text.Html
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
@@ -30,8 +29,6 @@ class FortuneCookieManager {
         val request = Request.Builder()
                 .url("http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1")
                 .build()
-
-        // TODO add Firebase crashlytics
 
         okHttpClient.newCall(request).enqueue(object: Callback{
             override fun onFailure(call: Call, e: IOException) {
