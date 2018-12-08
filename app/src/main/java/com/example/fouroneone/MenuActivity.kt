@@ -13,6 +13,7 @@ class MenuActivity : AppCompatActivity() {
 
     private lateinit var fortuneCookieButton: Button
     private lateinit var spotifyButton: Button
+    private lateinit var newsButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +21,8 @@ class MenuActivity : AppCompatActivity() {
 
         fortuneCookieButton = findViewById(R.id.fortunecookie_button)
         spotifyButton = findViewById(R.id.spotify_button)
+        newsButton = findViewById(R.id.news_button)
+
 
         fortuneCookieButton.setOnClickListener {
             val intent = Intent(this, FortuneCookieActivity::class.java)
@@ -27,6 +30,10 @@ class MenuActivity : AppCompatActivity() {
         }
         spotifyButton.setOnClickListener{
             val intent = Intent(this, SpotifyActivity::class.java)
+            startActivity(intent)
+        }
+        newsButton.setOnClickListener{
+            val intent = Intent(this, NewsActivity::class.java)
             startActivity(intent)
         }
     }
