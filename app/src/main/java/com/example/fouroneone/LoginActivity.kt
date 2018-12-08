@@ -4,8 +4,10 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.AnimationDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -30,13 +32,21 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var signupButton: Button
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private lateinit var animation: AnimationDrawable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Hides title bar from displaying,
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         supportActionBar?.hide()
 
         setContentView(R.layout.activity_login)
+
+        val container = findViewById<ConstraintLayout>(R.id.container)
+        animation = container.background as AnimationDrawable
+        animation.setEnterFadeDuration(4000)
+        animation.setExitFadeDuration(6000)
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         firebaseAuth = FirebaseAuth.getInstance()
@@ -106,9 +116,18 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+    override fun onResume() {
+        super.onResume()
+        if(animation != null && !animation.isRunning){
+            animation.start()
+        }
+    }
 
     override fun onPause() {
         super.onPause()
+        if(animation != null && animation.isRunning){
+            animation.stop()
+        }
         setPrefs()
     }
 
