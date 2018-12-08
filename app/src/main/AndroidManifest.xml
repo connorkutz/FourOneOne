@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".FortuneCookieActivity" />
+        <activity android:name=".SpotifyActivity"/>
         <activity android:name=".MenuActivity"></activity>
     </application>
 

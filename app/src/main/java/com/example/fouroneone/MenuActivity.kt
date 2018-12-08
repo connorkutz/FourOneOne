@@ -12,15 +12,21 @@ import android.widget.Button
 class MenuActivity : AppCompatActivity() {
 
     private lateinit var fortuneCookieButton: Button
+    private lateinit var spotifyButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
         fortuneCookieButton = findViewById(R.id.fortunecookie_button)
+        spotifyButton = findViewById(R.id.spotify_button)
 
         fortuneCookieButton.setOnClickListener {
             val intent = Intent(this, FortuneCookieActivity::class.java)
+            startActivity(intent)
+        }
+        spotifyButton.setOnClickListener{
+            val intent = Intent(this, SpotifyActivity::class.java)
             startActivity(intent)
         }
     }
