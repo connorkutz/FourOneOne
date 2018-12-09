@@ -38,15 +38,15 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // Hides title bar from displaying,
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        supportActionBar?.hide()
+        //requestWindowFeature(Window.FEATURE_NO_TITLE)
+        //supportActionBar?.hide()
 
         setContentView(R.layout.activity_login)
 
         val container = findViewById<ConstraintLayout>(R.id.container)
         animation = container.background as AnimationDrawable
         animation.setEnterFadeDuration(4000)
-        animation.setExitFadeDuration(6000)
+        animation.setExitFadeDuration(8000)
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         firebaseAuth = FirebaseAuth.getInstance()
@@ -118,14 +118,14 @@ class LoginActivity : AppCompatActivity() {
     }
     override fun onResume() {
         super.onResume()
-        if(animation != null && !animation.isRunning){
+        if(!animation.isRunning){
             animation.start()
         }
     }
 
     override fun onPause() {
         super.onPause()
-        if(animation != null && animation.isRunning){
+        if(animation.isRunning){
             animation.stop()
         }
         setPrefs()
