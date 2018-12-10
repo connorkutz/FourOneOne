@@ -1,10 +1,16 @@
 package com.example.fouroneone
 
+import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.drawable.AnimationDrawable
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.annotation.NonNull
+import android.support.annotation.UiThread
 import android.support.constraint.ConstraintLayout
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -14,10 +20,12 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Adapter
 import android.widget.Toast
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.article_recycler_view_item.view.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.lang.Thread.sleep
+
 
 class NewsActivity : AppCompatActivity() {
 
@@ -26,11 +34,11 @@ class NewsActivity : AppCompatActivity() {
     private lateinit var articleViewManager: RecyclerView.LayoutManager
     private lateinit var animation: AnimationDrawable
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news)
-        val context = this
         var articles : MutableList<Article>? = arrayListOf()
 
         val container = findViewById<ConstraintLayout>(R.id.container)
@@ -52,7 +60,7 @@ class NewsActivity : AppCompatActivity() {
                             Log.d("NewsActivity", exception.message)
                         }
                     },
-                    context = context
+                    context = this@NewsActivity
             )
         }
         sleep(1000)
@@ -76,6 +84,10 @@ class NewsActivity : AppCompatActivity() {
         }
     }
 
+    public fun getContext(): Context {
+        return this
+    }
+
     override fun onPause() {
         super.onPause()
         if(animation.isRunning){
@@ -89,8 +101,8 @@ class NewsActivity : AppCompatActivity() {
         }
     }
 
-    class ArticleViewAdapter(private val dataset: List<Article>?) : RecyclerView.Adapter<ArticleViewAdapter.ArticleViewHolder>(){
-        class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+   inner class ArticleViewAdapter(private val dataset: List<Article>?) : RecyclerView.Adapter<ArticleViewAdapter.ArticleViewHolder>(){
+        inner class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
         // Create new views (invoked by the layout manager)
         override fun onCreateViewHolder(parent: ViewGroup,
@@ -107,7 +119,22 @@ class NewsActivity : AppCompatActivity() {
             //load data into a new row
             //holder.itemView.alert_image.setImageDrawable(ResourcesCompat.getDrawable(R.drawable.ic_warning_black_24dp))
             val lineString = "Line: "
-            holder.itemView.article_title.setText(dataset!!.get(position).Title)
+            holder.itemView.article_title.text = (dataset!![position].Title)
+            //Picasso.get().setIndicatorsEnabled(true)
+            Picasso.get()
+                    .load(dataset!![position].imageURL)
+                    .resize(500, 275)
+                    .centerInside()
+                    .onlyScaleDown()
+                    .into(holder.itemView.article_thumbnail)
+            holder.itemView.setOnClickListener{
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(dataset!![position].url)
+
+                startActivity(this@NewsActivity, intent, null)
+
+
+            }
             //holder.itemView.source.setText(dataset.get(position).source)
         }
 
