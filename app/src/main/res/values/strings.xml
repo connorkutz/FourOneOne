@@ -16,5 +16,6 @@
     <string name="news_button_string">News</string>
     <string name="spotify_button_string">Spotify</string>
     <string name="fortune_cookie_button_string">Fortune Cookie</string>
+    <string name="menu_weather_text">Weather</string>
 
 </resources>
