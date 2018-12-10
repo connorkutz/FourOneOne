@@ -7,5 +7,11 @@
     <string name="signup_button">Sign Up</string>
     <string name="confirm_password">Confirm password</string>
     <string name="remember">Remember</string>
+    <string name="weather_title">Weather in </string>
+    <string name="weather_temp"> °F</string>
+    <string name="weather_humidity">Relative humidity: </string>
+    <string name="weather_windspeed">Wind speed: </string>
+    <string name="weather_feelslike">Feels like: </string>
+    <string name="weather_clouds">Cloud coverage: </string>
 
 </resources>
