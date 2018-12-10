@@ -19,7 +19,8 @@
         <activity android:name=".FortuneCookieActivity" />
         <activity android:name=".SpotifyActivity" />
         <activity android:name=".MenuActivity" />
-        <activity android:name=".NewsActivity"></activity>
+        <activity android:name=".NewsActivity" />
+        <activity android:name=".WeatherActivity" />
     </application>
 
 </manifest>

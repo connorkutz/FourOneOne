@@ -7,6 +7,12 @@
     <string name="signup_button">Sign Up</string>
     <string name="confirm_password">Confirm password</string>
     <string name="remember">Remember</string>
+    <string name="weather_title">Weather in </string>
+    <string name="weather_temp"> °F</string>
+    <string name="weather_humidity">Relative humidity: </string>
+    <string name="weather_windspeed">Wind speed: </string>
+    <string name="weather_feelslike">Feels like: </string>
+    <string name="weather_clouds">Cloud coverage: </string>
     <string name="news_button_string">News</string>
     <string name="spotify_button_string">Spotify</string>
     <string name="fortune_cookie_button_string">Fortune Cookie</string>

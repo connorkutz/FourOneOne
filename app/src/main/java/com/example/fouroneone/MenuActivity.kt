@@ -9,13 +9,19 @@ import android.graphics.drawable.AnimationDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
+import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 
 class MenuActivity : AppCompatActivity() {
 
     private lateinit var fortuneCookieButton: Button
     private lateinit var spotifyButton: Button
     private lateinit var newsButton: Button
+    private lateinit var weatherButton: Button
+    private lateinit var weatherTemperatureText: TextView
+    private lateinit var weatherDescriptionText: TextView
+    private lateinit var fortuneCookieQuote: TextView
     private lateinit var animation: AnimationDrawable
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,8 +35,38 @@ class MenuActivity : AppCompatActivity() {
 
         fortuneCookieButton = findViewById(R.id.fortunecookie_button)
         spotifyButton = findViewById(R.id.spotify_button)
-        newsButton = findViewById(R.id.news_button)
+        newsButton = findViewById(R.id.menu_news_button)
+        fortuneCookieButton = findViewById(R.id.fortunecookie_button)
+        spotifyButton = findViewById(R.id.spotify_button)
+        weatherButton = findViewById(R.id.menu_weather_button)
+        weatherTemperatureText = findViewById(R.id.menu_weather_temperature)
+        weatherDescriptionText = findViewById(R.id.menu_weather_description)
+        fortuneCookieQuote = findViewById(R.id.menu_fortune_cookie_text)
 
+        WeatherManager().getCurrentWeather(
+                apiKey = getString(R.string.weather_key),
+                successCallback = {weather ->
+                    runOnUiThread{
+                        weatherTemperatureText.text = weather.temperature.toString()
+                        weatherDescriptionText.text = weather.description
+                    }
+
+                },
+                errorCallback = {exception ->
+                    Log.d("MenuActivity", exception.message)
+                }
+        )
+
+        FortuneCookieManager().getQuote(
+                successCallback = {quote ->
+                    runOnUiThread {
+                        fortuneCookieQuote.text = quote
+                    }
+                },
+                errorCallback = {exception ->
+                    Log.d("MenuActivity", exception.message)
+                }
+        )
 
         fortuneCookieButton.setOnClickListener {
             val intent = Intent(this, FortuneCookieActivity::class.java)
@@ -42,6 +78,10 @@ class MenuActivity : AppCompatActivity() {
         }
         newsButton.setOnClickListener{
             val intent = Intent(this, NewsActivity::class.java)
+            startActivity(intent)
+        }
+        weatherButton.setOnClickListener {
+            val intent = Intent(this, WeatherActivity::class.java)
             startActivity(intent)
         }
     }
