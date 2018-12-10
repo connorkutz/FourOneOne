@@ -13,5 +13,8 @@
     <string name="weather_windspeed">Wind speed: </string>
     <string name="weather_feelslike">Feels like: </string>
     <string name="weather_clouds">Cloud coverage: </string>
+    <string name="news_button_string">News</string>
+    <string name="spotify_button_string">Spotify</string>
+    <string name="fortune_cookie_button_string">Fortune Cookie</string>
 
 </resources>
