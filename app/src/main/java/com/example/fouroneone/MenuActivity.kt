@@ -12,6 +12,7 @@ import android.support.constraint.ConstraintLayout
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import org.jetbrains.anko.doAsync
 
 class MenuActivity : AppCompatActivity() {
 
@@ -23,6 +24,7 @@ class MenuActivity : AppCompatActivity() {
     private lateinit var weatherDescriptionText: TextView
     private lateinit var fortuneCookieQuote: TextView
     private lateinit var animation: AnimationDrawable
+    private lateinit var newsText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +44,7 @@ class MenuActivity : AppCompatActivity() {
         weatherTemperatureText = findViewById(R.id.menu_weather_temperature)
         weatherDescriptionText = findViewById(R.id.menu_weather_description)
         fortuneCookieQuote = findViewById(R.id.menu_fortune_cookie_text)
+        newsText = findViewById(R.id.menu_news_text)
 
         WeatherManager().getCurrentWeather(
                 apiKey = getString(R.string.weather_key),
@@ -67,6 +70,21 @@ class MenuActivity : AppCompatActivity() {
                     Log.d("MenuActivity", exception.message)
                 }
         )
+
+        doAsync {
+            NewsManager().getFirstArticle(
+                    successCallback = { article ->
+                        runOnUiThread{
+                            newsText.text = article.Title
+                        }
+                    },
+                    errorCallback = {exception ->
+                        Log.d("MenuActivity", exception.message)
+                    },
+                    context = this@MenuActivity
+            )
+        }
+
 
         fortuneCookieButton.setOnClickListener {
             val intent = Intent(this, FortuneCookieActivity::class.java)
