@@ -6,10 +6,7 @@ import android.util.Log
 import com.spotify.android.appremote.api.SpotifyAppRemote
 import com.spotify.android.appremote.api.ConnectionParams
 import com.spotify.android.appremote.api.Connector
-
-import com.spotify.protocol.client.Subscription
-import com.spotify.protocol.types.PlayerState
-import com.spotify.protocol.types.Track
+import com.spotify.android.appremote.api.ContentApi
 
 
 
@@ -61,14 +58,20 @@ class SpotifyActivity : AppCompatActivity() {
 
     private fun connected() {
         mSpotifyAppRemote!!.playerApi.play("spotify:playlist:37i9dQZF1DX2sUQwD7tbmL")
-        mSpotifyAppRemote!!.playerApi
-                .subscribeToPlayerState()
-                .setEventCallback { playerState ->
-                    val track = playerState.track
-                    if (track != null) {
-                        Log.d("SpotifyActivity", track.name + " by " + track.artist.name)
-                    }
-                }
+        //mSpotifyAppRemote!!.playerApi
+               // .subscribeToPlayerState()
+               // .setEventCallback { playerState ->
+                    //val track = playerState.track
+                    //if (track != null) {
+                     //   Log.d("SpotifyActivity", track.name + " by " + track.artist.name)
+                    //}
+               // }
+
+        val recommendedItems = mSpotifyAppRemote!!.contentApi
+                .getRecommendedContentItems(ContentApi.ContentType.WAKE)
+
+        Log.d("Recommend", recommendedItems.toString())
+
     }
 
     override fun onStop() {
