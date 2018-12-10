@@ -19,6 +19,42 @@ class NewsManager{
         builder.build()
     }
 
+    fun getFirstArticle(
+            successCallback: (Article) -> Unit,
+            errorCallback: (Exception) -> Unit,
+            context: Context
+    ){
+        val apiKey = context.getString(R.string.news_key)
+        val request = Request.Builder()
+                .url("https://newsapi.org/v2/top-headlines?country=us&apiKey=$apiKey&pageSize=1&page=1")
+                .build()
+
+        val call = okHttpClient.newCall(request)
+        val response = call.execute()
+        val responseString: String? = response.body()?.string()
+
+        if(response.isSuccessful && responseString != null) {
+
+            val jsonArticles = JSONObject(responseString).getJSONArray("articles")
+            val curr = jsonArticles.getJSONObject(0)
+            val article = Article(curr.getString("title"))
+                //article.source = curr.getString("source.name")
+            article.url = curr.getString("url")
+            article.imageURL = curr.getString("urlToImage")
+                //val quoteObject = JSONArray(responseString).getJSONObject(0)
+                //val quoteBodyFull = quoteObject.getString("content")        // With <p> and </p> at either end
+                //val quoteBody = Html.fromHtml(quoteBodyFull, Html.FROM_HTML_MODE_COMPACT)
+
+                //val quoter = quoteObject.getString("title")
+                //val finalQuote = quoteBody.toString() + " -" + quoter
+            successCallback(article)
+            }
+        else{
+            errorCallback(Exception("Unable to retrieve News."))
+        }
+    }
+
+
     fun getNews(
             successCallback: (MutableList<Article>) -> Unit,
             errorCallback: (Exception) -> Unit,
