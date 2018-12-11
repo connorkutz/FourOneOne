@@ -1,7 +1,9 @@
 package com.example.fouroneone
 
+import android.graphics.drawable.AnimationDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.util.Log
 import android.widget.TextView
 
@@ -14,10 +16,16 @@ class WeatherActivity : AppCompatActivity() {
     private lateinit var windSpeedText: TextView
     private lateinit var feelsLikeText: TextView
     private lateinit var cloudsText: TextView
+    private lateinit var animation: AnimationDrawable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
+
+        val container = findViewById<ConstraintLayout>(R.id.container)
+        animation = container.background as AnimationDrawable
+        animation.setEnterFadeDuration(4000)
+        animation.setExitFadeDuration(8000)
 
         tempText = findViewById(R.id.weather_temperature_text)
         descriptionText = findViewById(R.id.weather_description_text)
