@@ -3,12 +3,14 @@ package com.example.fouroneone
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 
 
 class SpotifyActivity : AppCompatActivity() {
+
 
     // starts activity and starts SpotifyRemoteApp
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +31,15 @@ class SpotifyActivity : AppCompatActivity() {
         super.onStart()
 
 
+    }
 
+    private fun spotifyReady(){
+        SpotifyManager.getFeaturedPlaylists(callback = {pager ->
+            Log.d("First Playlist", pager.items[2].name.toString())
+        })
+
+        //update recyclerView with Pager of Playlists
+        //onClick -> playPlaylist
 
     }
 
@@ -41,6 +51,7 @@ class SpotifyActivity : AppCompatActivity() {
         SpotifyManager.destroy()
     }
 
+
     // initializes the webApi version of spotify to get user's playlists
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -48,7 +59,9 @@ class SpotifyActivity : AppCompatActivity() {
         println(response.error)
         if (0xa == requestCode) {
             val accessToken = response.accessToken
-            SpotifyManager.initWeb(accessToken)
+            SpotifyManager.initWeb(accessToken, callback = {
+                spotifyReady()
+            })
         }
     }
 }
