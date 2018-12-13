@@ -1,6 +1,7 @@
 package com.example.fouroneone
 
 import android.content.Context
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import com.spotify.android.appremote.api.ConnectionParams
 import com.spotify.android.appremote.api.Connector
@@ -18,6 +19,7 @@ object SpotifyManager {
 
     private var mSpotifyAppRemote: SpotifyAppRemote? = null
     private var spotify : SpotifyService? = null
+
 
     fun init(context: Context) {
 
@@ -69,7 +71,7 @@ object SpotifyManager {
     }
 
 
-    private fun playPlaylist(uri: String) {
+    fun playPlaylist(uri: String) {
         mSpotifyAppRemote!!.playerApi.play(uri)
     }
 
