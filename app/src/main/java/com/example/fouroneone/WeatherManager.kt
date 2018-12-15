@@ -48,7 +48,15 @@ class WeatherManager{
                     val windSpeed = responseObject.getDouble("wind_spd")
                     val feelsLike = responseObject.getDouble("app_temp")
                     val clouds = responseObject.getInt("clouds")
-                    val weather = Weather(" " + temperature.toString() + " °F", description, " " + cityName, " " + humidity.toString() + " %", " " + windSpeed.toString() + "mph", " " + feelsLike.toString() + " °F", " " + clouds.toString() + "%")
+                    val icon = responseObject.getJSONObject("weather").getString("icon")
+                    val weather = Weather(" " + temperature.toString() + " °F",
+                            description,
+                            " " + cityName,
+                            " " + humidity.toString() + " %",
+                            " " + windSpeed.toString() + "mph",
+                            " " + feelsLike.toString() + " °F",
+                            " " + clouds.toString() + "%",
+                            icon)
                     successCallback(weather)
                 }
                 else{

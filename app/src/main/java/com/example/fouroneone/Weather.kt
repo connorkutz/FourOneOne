@@ -7,5 +7,6 @@ data class Weather(
         val pressure: String,
         val windSpeed: String,
         val feelsLike: String,
-        val clouds: String
+        val clouds: String,
+        val iconCode: String
 )
