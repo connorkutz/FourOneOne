@@ -24,11 +24,6 @@ class WeatherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
 
-        val container = findViewById<ConstraintLayout>(R.id.container)
-        animation = container.background as AnimationDrawable
-        animation.setEnterFadeDuration(4000)
-        animation.setExitFadeDuration(8000)
-
         tempText = findViewById(R.id.weather_temperature_text)
         descriptionText = findViewById(R.id.weather_description_text)
         titleText = findViewById(R.id.weather_title)

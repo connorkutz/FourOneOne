@@ -63,12 +63,7 @@ class FortuneCookieActivity : AppCompatActivity() {
 
         }
     }
-    override fun onPause() {
-        super.onPause()
-        if(animation.isRunning){
-            animation.stop()
-        }
-    }
+
     override fun onResume() {
         super.onResume()
         if(!animation.isRunning){
