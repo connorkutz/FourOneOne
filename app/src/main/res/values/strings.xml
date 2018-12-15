@@ -17,5 +17,7 @@
     <string name="spotify_button_string">Spotify</string>
     <string name="fortune_cookie_button_string">Fortune Cookie</string>
     <string name="menu_weather_text">Weather</string>
+    <string name="quote_button">Random Quote</string>
+    <string name="advice_button">Random Advice</string>
 
 </resources>
