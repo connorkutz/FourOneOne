@@ -38,6 +38,11 @@ class WeatherActivity : AppCompatActivity() {
         cloudsText = findViewById(R.id.weather_clouds_text)
         icon = findViewById(R.id.weather_icon)
 
+        val container = findViewById<ConstraintLayout>(R.id.weather_container)
+        animation = container.background as AnimationDrawable
+        animation.setEnterFadeDuration(4000)
+        animation.setExitFadeDuration(8000)
+
         val key = getString(R.string.weather_key)
         WeatherManager().getCurrentWeather(
                 apiKey = key,
@@ -62,11 +67,17 @@ class WeatherActivity : AppCompatActivity() {
 
 
     }
-
     override fun onPause() {
         super.onPause()
         if(animation.isRunning){
             animation.stop()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(!animation.isRunning){
+            animation.start()
         }
     }
 }

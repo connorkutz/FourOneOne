@@ -19,7 +19,9 @@ class FortuneCookieActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fortune_cookie)
 
-        val container = findViewById<ConstraintLayout>(R.id.container)
+
+        val container = findViewById<ConstraintLayout>(R.id.fortune_cookie_container)
+
         animation = container.background as AnimationDrawable
         animation.setEnterFadeDuration(4000)
         animation.setExitFadeDuration(8000)
@@ -59,6 +61,18 @@ class FortuneCookieActivity : AppCompatActivity() {
                     }
             )
 
+        }
+    }
+    override fun onPause() {
+        super.onPause()
+        if(animation.isRunning){
+            animation.stop()
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        if(!animation.isRunning){
+            animation.start()
         }
     }
 

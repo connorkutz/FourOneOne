@@ -23,6 +23,11 @@ android {
     }
 }
 
+repositories {
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -55,6 +60,9 @@ dependencies {
     implementation "org.jetbrains.anko:anko-commons:0.10.4"
 
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    implementation 'com.github.kaaes:spotify-web-api-android:0.4.1'
+    implementation 'com.spotify.android:auth:1.1.0'
 
 }
 
